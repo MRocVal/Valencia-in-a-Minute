@@ -86,20 +86,25 @@ def calcular_tiempo_restante(hora_llegada):
     try:
         ahora = datetime.now().strftime(formato)
         hora_actual = datetime.strptime(ahora, formato)
-        hora_llegada_dt = datetime.strptime(hora_llegada, formato)
+        try:
+            hora_llegada_dt = datetime.strptime(hora_llegada, formato)
+        except ValueError:
+            # If there's an error parsing the hora_llegada, add one hour to the current time
+            hora_llegada_dt = hora_actual + timedelta(hours=1)
 
-        # Si la hora de llegada es menor a la hora actual, añadir un día
+        # Check if the calculated arrival time is still in the past, if so, adjust by adding a day
         if hora_llegada_dt < hora_actual:
             hora_llegada_dt += timedelta(days=1)
 
         tiempo_restante = hora_llegada_dt - hora_actual
         tiempo_restante_str = str(tiempo_restante)
 
-        # Buscar y extraer solo los minutos y segundos
-        minutos_segundos = tiempo_restante_str.split(":")[1:]
-        return ":".join(minutos_segundos)
-    except ValueError:
-        return None  # Return None if there's an error
+        # Extract only the hours, minutes, and seconds
+        horas_minutos_segundos = tiempo_restante_str.split(":")
+        return ":".join(horas_minutos_segundos[:2])  # Only return hours and minutes
+    except Exception as e:
+        # Handle unexpected errors gracefully
+        return None
 
 
 
