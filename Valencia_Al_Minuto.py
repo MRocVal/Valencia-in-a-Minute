@@ -425,7 +425,9 @@ elif pagina == 'ValenBisi Route Duration':
     st.title('Rute Duration')
     
     st.markdown("""
-Hola como se se si esvribo así
+On this page, you can calculate the travel time from one stop to another, ensuring you don't exceed the time you need the bike for. 
+
+Additionally, if you click on the bicycle icon on the map, it will display the number of bikes parked and the available spaces to leave them.
 
 """)
     
