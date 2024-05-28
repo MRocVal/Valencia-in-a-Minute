@@ -432,13 +432,13 @@ Hola como se se si esvribo así
     # Crear datos de íconos dentro de la función de carga para asegurar su disponibilidad
     data['icon_data'] = [{
         "url": "https://img.icons8.com/emoji/48/000000/bicycle-emoji.png",
-        "width": 28,
-        "height": 28,
-        "anchorY": 28,
+        "width": 128,
+        "height": 128,
+        "anchorY": 128,
     }] * len(data)
     
     # Añadir buscadores separados para cada parada
-    st.sidebar.header("Selecciona dos paradas")
+    st.sidebar.header("Select two stops")
     
     # Buscador para la primera parada
     search_text1 = st.sidebar.text_input("Buscar Parada 1:")
@@ -507,7 +507,7 @@ Hola como se se si esvribo así
             view_state = pdk.ViewState(
                 latitude=(coords1[1] + coords2[1]) / 2,
                 longitude=(coords1[0] + coords2[0]) / 2,
-                zoom=13,
+                zoom=50,
                 pitch=0
             )
     
