@@ -80,25 +80,38 @@ def obtener_proximos_movimientos_bus(url):
         st.error(f"Error al obtener los datos de {url}: {e}")
         return []
 
-# Función para calcular el tiempo restante
+
 def calcular_tiempo_restante(hora_llegada):
     formato = '%H:%M:%S'
-    ahora = datetime.now().strftime(formato)
-    hora_actual = datetime.strptime(ahora, formato)
-    hora_llegada_dt = datetime.strptime(hora_llegada, formato)
-    
-    # Si la hora de llegada es menor a la hora actual, añadir un día
-    if hora_llegada_dt < hora_actual:
-        hora_llegada_dt += timedelta(days=1)
-    
-    tiempo_restante = hora_llegada_dt - hora_actual
-    tiempo_restante_str = str(tiempo_restante)
-    
-    # Buscar y extraer solo los minutos y segundos
-    minutos_segundos = tiempo_restante_str.split(":")[1:]
-    return ":".join(minutos_segundos)
+    try:
+        ahora = datetime.now().strftime(formato)
+        hora_actual = datetime.strptime(ahora, formato)
+        hora_llegada_dt = datetime.strptime(hora_llegada, formato)
 
+        # Si la hora de llegada es menor a la hora actual, añadir un día
+        if hora_llegada_dt < hora_actual:
+            hora_llegada_dt += timedelta(days=1)
 
+        tiempo_restante = hora_llegada_dt - hora_actual
+        tiempo_restante_str = str(tiempo_restante)
+
+        # Buscar y extraer solo los minutos y segundos
+        minutos_segundos = tiempo_restante_str.split(":")[1:]
+        return ":".join(minutos_segundos)
+    except ValueError:
+        return None  # Return None if there's an error
+
+# Example usage in your Streamlit app
+try:
+    # Assume llegada["Tiempo"] contains the time string
+    llegada = {"Tiempo": "25:61:00"}  # Invalid time format example
+    tiempo_restante = calcular_tiempo_restante(llegada["Tiempo"])
+    if tiempo_restante is not None:
+        st.write(f"Remaining time: {tiempo_restante}")
+    else:
+        raise ValueError("No valid metro times available.")
+except ValueError:
+    st.error("No metros available at this moment, the service will restart at 6 AM the next day.")
 
 def calcular_tiempo_restante_bus(hora_llegada):
     try:
