@@ -101,17 +101,7 @@ def calcular_tiempo_restante(hora_llegada):
     except ValueError:
         return None  # Return None if there's an error
 
-# Example usage in your Streamlit app
-try:
-    # Assume llegada["Tiempo"] contains the time string
-    llegada = {"Tiempo": "25:61:00"}  # Invalid time format example
-    tiempo_restante = calcular_tiempo_restante(llegada["Tiempo"])
-    if tiempo_restante is not None:
-        st.write(f"Remaining time: {tiempo_restante}")
-    else:
-        raise ValueError("No valid metro times available.")
-except ValueError:
-    st.error("No metros available at this moment, the service will restart at 6 AM the next day.")
+
 
 def calcular_tiempo_restante_bus(hora_llegada):
     try:
