@@ -411,68 +411,66 @@ You can choose the stops you are interested in and see their geographical distri
     else:
         st.write("No data available for the selected stops.")
         
-elif pagina == 'ValenBisi Route Duration':
-   
-    # Función para cargar y preparar los datos
+if pagina == 'ValenBisi Route Duration':
+    # Function to load and prepare the data
     def load_data():
         data = pd.read_csv('Valenbici.csv', delimiter=';')
         data[['lat', 'lon']] = data['geo_point_2d'].str.split(',', expand=True).astype(float)
         data = data.sort_values('Direccion')
         return data
-    
-    data = load_data()
-    
-    st.title('Rute Duration')
-    
-    st.markdown("""
-Hola como se se si esvribo así
 
-""")
-    
-    # Crear datos de íconos dentro de la función de carga para asegurar su disponibilidad
+    data = load_data()
+
+    st.title('Route Duration')
+
+    st.markdown("""
+    Hello, see how if I write like this
+    """)
+
+    # Create icon data within the load function to ensure availability
     data['icon_data'] = [{
         "url": "https://img.icons8.com/emoji/48/000000/bicycle-emoji.png",
         "width": 128,
         "height": 128,
         "anchorY": 128,
     }] * len(data)
-    
-    # Añadir buscadores separados para cada parada
+
+    # Add separate searchers for each stop
     st.sidebar.header("Select two stops")
-    
-    # Buscador para la primera parada
-    search_text1 = st.sidebar.text_input("Buscar Parada 1:")
+
+    # Searcher for the first stop
+    search_text1 = st.sidebar.text_input("Search Stop 1:")
     if search_text1:
         filtered_data1 = data[data['Direccion'].str.contains(search_text1, case=False)]
     else:
         filtered_data1 = data
-    
-    # Buscador para la segunda parada
-    search_text2 = st.sidebar.text_input("Buscar Parada 2:")
+
+    # Searcher for the second stop
+    search_text2 = st.sidebar.text_input("Search Stop 2:")
     if search_text2:
         filtered_data2 = data[data['Direccion'].str.contains(search_text2, case=False)]
     else:
         filtered_data2 = data
-    
-    # Ordenar las paradas filtradas
+
+    # Sort filtered stops
     filtered_data1 = filtered_data1.sort_values('Direccion')
     filtered_data2 = filtered_data2.sort_values('Direccion')
-    
-    # Seleccionar dos paradas
-    parada1 = st.sidebar.selectbox("Parada 1", filtered_data1['Direccion'])
-    parada2 = st.sidebar.selectbox("Parada 2", filtered_data2['Direccion'])
-    
-    # Obtener coordenadas de las paradas seleccionadas
+
+    # Select two stops
+    parada1 = st.sidebar.selectbox("Stop 1", filtered_data1['Direccion'])
+    parada2 = st.sidebar.selectbox("Stop 2", filtered_data2['Direccion'])
+
+    # Get coordinates of selected stops
     coords1 = data[data['Direccion'] == parada1][['lon', 'lat']].values[0]
     coords2 = data[data['Direccion'] == parada2][['lon', 'lat']].values[0]
-    
-    # Filtrar los datos para mostrar solo las estaciones seleccionadas
+
+    # Filter data to show only selected stations
     selected_stations = data[data['Direccion'].isin([parada1, parada2])]
-    
-    # Configurar la API de Mapbox
+
+    # Configure Mapbox API
     MAPBOX_API_KEY = 'sk.eyJ1IjoibXJvY3ZhbDAxOCIsImEiOiJjbHdxb2YzbnQwNHkxMmlzN3FiYjhmdjM2In0.OMAngKqcq66vxUyM8MeKWw'
-    
-    # Obtener la ruta y tiempo estimado entre las paradas usando la API de Mapbox Directions
+
+    # Get the route and estimated time between stops using Mapbox Directions API
     def get_route_time(coords1, coords2, api_key):
         url = f"https://api.mapbox.com/directions/v5/mapbox/cycling/{coords1[0]},{coords1[1]};{coords2[0]},{coords2[1]}"
         params = {
@@ -483,17 +481,17 @@ Hola como se se si esvribo así
         if response.status_code == 200:
             data = response.json()
             route = data['routes'][0]['geometry']
-            duration = data['routes'][0]['duration'] / 60  # Convertir a minutos
+            duration = data['routes'][0]['duration'] / 60  # Convert to minutes
             return route, duration
         else:
             return None, None
-    
-    if st.sidebar.button("Calcular Ruta"):
+
+    if st.sidebar.button("Calculate Route"):
         route, duration = get_route_time(coords1, coords2, MAPBOX_API_KEY)
         if route:
-            st.sidebar.write(f"Tiempo estimado: {duration:.2f} minutos")
-    
-            # Añadir la ruta al mapa
+            st.sidebar.write(f"Estimated time: {duration:.2f} minutes")
+
+            # Add the route to the map
             route_layer = pdk.Layer(
                 "PathLayer",
                 data=pd.DataFrame([{"path": route['coordinates']}]),
@@ -502,15 +500,15 @@ Hola como se se si esvribo así
                 get_color=[255, 0, 0],
                 width_min_pixels=2
             )
-    
-            # Configuración del mapa con estaciones seleccionadas
+
+            # Map configuration with selected stations
             view_state = pdk.ViewState(
                 latitude=(coords1[1] + coords2[1]) / 2,
                 longitude=(coords1[0] + coords2[0]) / 2,
-                zoom=15,
+                zoom=13,
                 pitch=0
             )
-    
+
             icon_layer = pdk.Layer(
                 "IconLayer",
                 selected_stations,
@@ -521,25 +519,25 @@ Hola como se se si esvribo así
                 get_color=[255, 165, 0],
                 pickable=True
             )
-    
+
             st.pydeck_chart(pdk.Deck(
                 layers=[icon_layer, route_layer],
                 initial_view_state=view_state,
                 map_style='mapbox://styles/mapbox/light-v9',
                 tooltip={
-                    "html": "<b>Dirección:</b> {Direccion}<br/>"
-                            "<b>Bicis Disponibles:</b> {Bicis_disponibles}<br/>"
-                            "<b>Espacios Libres:</b> {Espacios_libres}",
+                    "html": "<b>Address:</b> {Direccion}<br/>"
+                            "<b>Bikes Available:</b> {Bicis_disponibles}<br/>"
+                            "<b>Free Spaces:</b> {Espacios_libres}",
                     "style": {
                         "backgroundColor": "steelblue",
                         "color": "white"
                     }
                 }
-            ))
+            ), height=800, width=1200)  # Adjust the height and width here
         else:
-            st.sidebar.write("No se pudo calcular la ruta. Por favor, intenta de nuevo.")
-    
-    # Mostrar el mapa inicial con todas las estaciones
+            st.sidebar.write("Route calculation failed. Please try again.")
+
+    # Display the initial map with all stations
     else:
         view_state = pdk.ViewState(
             latitude=data['lat'].mean(),
@@ -547,7 +545,7 @@ Hola como se se si esvribo así
             zoom=13,
             pitch=0
         )
-    
+
         icon_layer = pdk.Layer(
             "IconLayer",
             data,
@@ -558,21 +556,21 @@ Hola como se se si esvribo así
             get_color=[255, 165, 0],
             pickable=True
         )
-    
+
         st.pydeck_chart(pdk.Deck(
             layers=[icon_layer],
             initial_view_state=view_state,
             map_style='mapbox://styles/mapbox/light-v9',
             tooltip={
-                "html": "<b>Dirección:</b> {Direccion}<br/>"
-                        "<b>Bicis Disponibles:</b> {Bicis_disponibles}<br/>"
-                        "<b>Espacios Libres:</b> {Espacios_libres}",
+                "html": "<b>Address:</b> {Direccion}<br/>"
+                        "<b>Bikes Available:</b> {Bicis_disponibles}<br/>"
+                        "<b>Free Spaces:</b> {Espacios_libres}",
                 "style": {
                     "backgroundColor": "steelblue",
                     "color": "white"
                 }
             }
-        ))
+        ), height=800, width=1200)  # Adjust the height and width here
         
     
     
