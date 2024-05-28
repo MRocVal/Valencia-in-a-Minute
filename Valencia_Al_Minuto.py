@@ -490,10 +490,10 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
         else:
             return None, None
     
-    if st.sidebar.button("Calcular Ruta"):
+    if st.sidebar.button("Calculate Route"):
         route, duration = get_route_time(coords1, coords2, MAPBOX_API_KEY)
         if route:
-            st.sidebar.write(f"Tiempo estimado: {duration:.2f} minutos")
+            st.sidebar.write(f"Estimated time: {duration:.2f} minutos")
     
             # Añadir la ruta al mapa
             route_layer = pdk.Layer(
