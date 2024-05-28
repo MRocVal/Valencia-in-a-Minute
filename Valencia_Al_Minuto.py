@@ -174,6 +174,11 @@ elif pagina == 'MetroValencia Schedule':
 
     # Filtrar datos para la selección de estaciones y ordenar alfabéticamente
     estaciones = sorted(data['Denominació / Denominación'].unique())
+    
+    st.markdown("""
+                
+    You can try entering ‘benimac’ and pressing enter.
+    """)
 
     # Entrada de texto para la estación
     estacion_input = st.text_input('Enter the Station Name: ')
