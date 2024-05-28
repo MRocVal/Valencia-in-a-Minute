@@ -126,7 +126,8 @@ data = pd.read_csv('fgv-bocas.csv', delimiter=';')
 data_EMT = pd.read_csv('emt.csv', delimiter=';')
 
 # Menú de navegación en la barra lateral
-pagina = st.sidebar.selectbox('Selecciona una página', ['Home','MetroValencia Schedule', 'Interactive Map', 'EMT Schedules', 'EMT Map', 'Duración Trayectos ValenBisi'])
+pagina = st.sidebar.selectbox('Selecciona una página', ['Home','MetroValencia Schedule', 'Interactive Map',
+                                                        'EMT Schedules', 'EMT Map','ValenBisi Route Duration'])
 
 
 if pagina == 'Home':
@@ -410,7 +411,7 @@ You can choose the stops you are interested in and see their geographical distri
     else:
         st.write("No data available for the selected stops.")
         
-elif pagina == 'Duración Trayectos ValenBisi':
+elif pagina == 'ValenBisi Route Duration':
    
     # Función para cargar y preparar los datos
     def load_data():
@@ -421,7 +422,12 @@ elif pagina == 'Duración Trayectos ValenBisi':
     
     data = load_data()
     
-    st.title('Mapa de Disponibilidad de Bicicletas en Valencia')
+    st.title('Rute Duration')
+    
+    st.markdown("""
+Hola como se se si esvribo así
+
+""")
     
     # Crear datos de íconos dentro de la función de carga para asegurar su disponibilidad
     data['icon_data'] = [{
