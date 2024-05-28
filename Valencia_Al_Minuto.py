@@ -126,13 +126,13 @@ data = pd.read_csv('fgv-bocas.csv', delimiter=';')
 data_EMT = pd.read_csv('emt.csv', delimiter=';')
 
 # Menú de navegación en la barra lateral
-pagina = st.sidebar.selectbox('Selecciona una página', ['Home','MetroValencia Schedule', 'Mapa Interactivo', 'Horarios EMT', 'Mapa EMT', 'Duración Trayectos ValenBisi'])
+pagina = st.sidebar.selectbox('Selecciona una página', ['Home','MetroValencia Schedule', 'Interactive Map', 'EMT Schedules', 'EMT Map', 'Duración Trayectos ValenBisi'])
 
 
 if pagina == 'Home':
     
     st.image('encabezado.jpg')
-    st.title("VALENCIA IN A MINUTE")
+    st.title("VALENCIA IN A MINUTE  te gusta amor? ")
     
     # Sección para próximas llegadas y salidas
     st.markdown("""
@@ -208,20 +208,21 @@ elif pagina == 'MetroValencia Schedule':
         else:
             st.write("The station entered is not found in the dataset.")
 
-elif pagina == 'Mapa Interactivo':
+elif pagina == 'Interactive Map':
     # Descripción de la aplicación
+    
     st.markdown("""
-    # Mapa Interactivo de las Líneas de Metro
-    Bienvenido a la visualización interactiva del metro de Valencia. 
-    Este mapa muestra las ubicaciones de las estaciones de metro seleccionadas. 
-    Puedes elegir las líneas de metro que te interesen y ver su distribución geográfica.
+    # Interactive Map of Metro Lines
+    This map shows the locations of selected metro stations.
+    You can choose the metro lines you are interested in and see their geographical distribution.
+    
     """)
 
     # Agregar una foto
     st.image('Plano_general.jpg')
 
     st.markdown("""
-    **Selecciona** las líneas que necesites coger, aparecerán en el mapa las diferentes estaciones disponibles.
+        **Select** the lines you need to consult; the different available stations will appear on the map.
     """)
 
     # Asegurar que los tipos de datos sean correctos
@@ -279,11 +280,13 @@ elif pagina == 'Mapa Interactivo':
     else:
         st.write("No data available for the selected lines.")
 
-elif pagina == 'Horarios EMT':
+elif pagina == 'EMT Schedules':
     st.markdown("""
-    # Próximas Llegadas de Autobuses
-    Consulta rápida de las próximas llegadas en tu parada de autobús.
-    Selecciona una parada y obtén información actualizada de los próximos autobuses.
+                
+    # Next Bus Arrivals
+    Quickly check the next arrivals at your bus stop.
+    Select a stop and get updated information on the upcoming buses.
+    
     """)
     st.image('bus.jpg')  # Asegúrate de tener una imagen apropiada o elimina esta línea
 
@@ -291,10 +294,10 @@ elif pagina == 'Horarios EMT':
     paradas = sorted(data_EMT['Denominació / Denominación'].unique())
     
     # Entrada de texto para la parada de autobús
-    parada_input = st.text_input('Introduce el nombre o el número de la parada:')
+    parada_input = st.text_input('Enter the name or number of the stop:')
     paradas_filtradas = [parada for parada in paradas if parada_input.lower() in parada.lower()]
     
-    parada_seleccionada = st.selectbox('Selecciona una parada:', paradas_filtradas)
+    parada_seleccionada = st.selectbox('Select of stop:', paradas_filtradas)
     
     if parada_seleccionada:
         # Verificar si la parada ingresada existe en el DataFrame
@@ -307,7 +310,7 @@ elif pagina == 'Horarios EMT':
             for llegada in llegadas:
                 llegada["Tiempo Restante"] = calcular_tiempo_restante_bus(llegada["Tiempo"])
             
-            st.markdown(f"### Próximas llegadas para la parada: {parada_seleccionada}")
+            st.markdown(f"### Next arrivals for the stop: {parada_seleccionada}")
             df_llegadas = pd.DataFrame(llegadas).sort_values(by="Tiempo Restante")
         
             df_llegadas['Tiempo'].apply(lambda x: st.markdown(f"<h3 style='font-size:50px;'>{x}</h3>", unsafe_allow_html=True))
@@ -317,19 +320,21 @@ elif pagina == 'Horarios EMT':
             st.experimental_rerun()
         
         else:
-            st.write("La parada introducida no se encuentra en el conjunto de datos.")
+            st.write("The stop entered is not found in the dataset.")
     
-elif pagina == 'Mapa EMT':
+elif pagina == 'EMT Map':
     import pandas as pd
     import pydeck as pdk
     import streamlit as st
 
     # Descripción de la aplicación
     st.markdown("""
-    # Mapa Interactivo de las Paradas de EMT
-    Bienvenido a la visualización interactiva de las paradas de autobús EMT de Valencia.
-    Este mapa muestra las ubicaciones de las paradas de autobús seleccionadas.
-    Puedes elegir las paradas que te interesen y ver su distribución geográfica.
+                
+    # Interactive Map of EMT Bus Stops
+Welcome to the interactive visualization of EMT bus stops in Valencia.
+This map shows the locations of selected bus stops.
+You can choose the stops you are interested in and see their geographical distribution.
+    
     """)
 
     # Agregar una foto
@@ -344,7 +349,7 @@ elif pagina == 'Mapa EMT':
     data = load_data()
 
     # Entrada para filtrar paradas por nombre
-    filter_query = st.text_input('Filtrar paradas por nombre:', '')
+    filter_query = st.text_input('Filter stops by name:, '')
 
     # Filtrar las paradas que coincidan con la entrada del usuario
     if filter_query:
