@@ -119,7 +119,7 @@ data = pd.read_csv('fgv-bocas.csv', delimiter=';')
 data_EMT = pd.read_csv('emt.csv', delimiter=';')
 
 # Menú de navegación en la barra lateral
-pagina = st.sidebar.selectbox('Selecciona una página', ['Home','Horario MetroValencia', 'Mapa Interactivo', 'Horarios EMT', 'Mapa EMT', 'Duración Trayectos ValenBisi'])
+pagina = st.sidebar.selectbox('Selecciona una página', ['Home','MetroValencia Schedule', 'Mapa Interactivo', 'Horarios EMT', 'Mapa EMT', 'Duración Trayectos ValenBisi'])
 
 
 if pagina == 'Home':
@@ -143,27 +143,36 @@ In addition to providing exact schedules, our application is designed to enhance
 
 In summary, our application arises from the need for a solution that offers real-time updates and superior organization for subway journeys. We are committed to innovation and continuous improvement so that your travel experience is optimal, efficient, and enjoyable. Join us and discover a new way to travel by subway.
 
-Additionally, we also have schedules for EMT buses and a page for calculating route duration between Valenbisi station stops.""")
+Additionally, we also have schedules for EMT buses and a page for calculating route duration between Valenbisi station stops.
+
+## Contact
+
+For any suggestions or inquiries, please send an email to the following address: [mrocval@etsinf.upv.es](mailto:mrocval@etsinf.upv.es).
+
+""")
     
 
-elif pagina == 'Horario MetroValencia':
+elif pagina == 'MetroValencia Schedule':
     data = pd.read_csv('fgv-bocas.csv', delimiter=';')
     # Sección para próximas llegadas y salidas
     st.markdown("""
-    # Próximas Llegadas y Salidas
-    Nueva forma de consultar de manera rápida las próximas llegadas y salidas en tu parada.
-    Selecciona una estación del metro y obtén la información actualizada de los próximos trenes que llegarán o partirán desde allí.
+                
+    # Next Arrivals and Departures
+    A new way to quickly check the next arrivals and departures at your stop.
+    Select a metro station and get updated information on the next trains arriving or departing from there.
+    
     """)
+    
     st.image('foto_metro.jpeg')
 
     # Filtrar datos para la selección de estaciones y ordenar alfabéticamente
     estaciones = sorted(data['Denominació / Denominación'].unique())
 
     # Entrada de texto para la estación
-    estacion_input = st.text_input('Introduce el nombre de la estación:')
+    estacion_input = st.text_input('Enter the Station Name: ')
     estaciones_filtradas = [estacion for estacion in estaciones if estacion_input.lower() in estacion.lower()]
 
-    estacion_seleccionada = st.selectbox('Selecciona una estación:', estaciones_filtradas)
+    estacion_seleccionada = st.selectbox('Select a Station:', estaciones_filtradas)
 
     if estacion_seleccionada:
         # Verificar si la estación ingresada existe en el DataFrame
@@ -176,7 +185,7 @@ elif pagina == 'Horario MetroValencia':
             for llegada in llegadas:
                 llegada["Tiempo Restante"] = calcular_tiempo_restante(llegada["Tiempo"])
 
-            st.markdown(f"#### Próximas llegadas para la estación: {estacion_seleccionada}")
+            st.markdown(f"#### Next Arrivals for the Station: {estacion_seleccionada}")
             df_llegadas = pd.DataFrame(llegadas).sort_values(by="Destino")
             st.table(df_llegadas)
 
@@ -185,7 +194,7 @@ elif pagina == 'Horario MetroValencia':
             st.experimental_rerun()
 
         else:
-            st.write("La estación introducida no se encuentra en el conjunto de datos.")
+            st.write("The station entered is not found in the dataset.")
 
 elif pagina == 'Mapa Interactivo':
     # Descripción de la aplicación
