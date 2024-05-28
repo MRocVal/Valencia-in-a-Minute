@@ -83,4 +83,4 @@ Calculate the travel time from one Valenbisi stop to another.
 
 ### Contact
 
-For any suggestions or inquiries, please send an email to [mrocval\@etsinf.upv.es](mailto:mrocval@etsinf.upv.es){.email}.
+For any suggestions or inquiries, please send an email to [mrocval\@etsinf.upv.es](mailto:mrocval@etsinf.upv.es).
