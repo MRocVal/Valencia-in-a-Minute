@@ -283,45 +283,47 @@ elif pagina == 'Interactive Map':
 
 elif pagina == 'EMT Schedules':
     st.markdown("""
-                
     # Next Bus Arrivals
     Quickly check the next arrivals at your bus stop.
     Select a stop and get updated information on the upcoming buses.
-    
     """)
-    st.image('bus.jpg')  # Asegúrate de tener una imagen apropiada o elimina esta línea
+    st.image('bus.jpg')  # Ensure you have an appropriate image or remove this line
 
-    # Filtrar datos para la selección de paradas de autobús y ordenar alfabéticamente
+    # Filter data for bus stop selection and sort alphabetically
     paradas = sorted(data_EMT['Denominació / Denominación'].unique())
-    
-    # Entrada de texto para la parada de autobús
+
+    # Text input for the bus stop
     parada_input = st.text_input('Enter the name or number of the stop:')
     paradas_filtradas = [parada for parada in paradas if parada_input.lower() in parada.lower()]
-    
-    parada_seleccionada = st.selectbox('Select of stop:', paradas_filtradas)
-    
+
+    parada_seleccionada = st.selectbox('Select a stop:', paradas_filtradas)
+
     if parada_seleccionada:
-        # Verificar si la parada ingresada existe en el DataFrame
-        if parada_seleccionada in data_EMT['Denominació / Denominación'].values:
-            url_llegadas = data_EMT[data_EMT['Denominació / Denominación'] == parada_seleccionada]['Pròximes Arribades / Proximas Llegadas'].values[0]
-            
-            llegadas = obtener_proximos_movimientos_bus(url_llegadas)
-            
-            # Calcular el tiempo restante para llegadas
-            for llegada in llegadas:
-                llegada["Tiempo Restante"] = calcular_tiempo_restante_bus(llegada["Tiempo"])
-            
-            st.markdown(f"### Next arrivals for the stop: {parada_seleccionada}")
-            df_llegadas = pd.DataFrame(llegadas).sort_values(by="Tiempo Restante")
-        
-            df_llegadas['Tiempo'].apply(lambda x: st.markdown(f"<h3 style='font-size:50px;'>{x}</h3>", unsafe_allow_html=True))
-            
-            # Añadir una pausa de 60 segundos para la actualización
-            time.sleep(1)
-            st.experimental_rerun()
-        
-        else:
-            st.write("The stop entered is not found in the dataset.")
+        try:
+            # Verify if the entered stop exists in the DataFrame
+            if parada_seleccionada in data_EMT['Denominació / Denominación'].values:
+                url_llegadas = data_EMT[data_EMT['Denominació / Denominación'] == parada_seleccionada]['Pròximes Arribades / Proximas Llegadas'].values[0]
+
+                llegadas = obtener_proximos_movimientos_bus(url_llegadas)
+
+                # Calculate the remaining time for arrivals
+                for llegada in llegadas:
+                    llegada["Tiempo Restante"] = calcular_tiempo_restante_bus(llegada["Tiempo"])
+
+                st.markdown(f"### Next arrivals for the stop: {parada_seleccionada}")
+                df_llegadas = pd.DataFrame(llegadas).sort_values(by="Tiempo Restante")
+
+                df_llegadas['Tiempo'].apply(lambda x: st.markdown(f"<h3 style='font-size:50px;'>{x}</h3>", unsafe_allow_html=True))
+
+                # Add a 60-second pause for the update
+                time.sleep(60)
+                st.experimental_rerun()
+            else:
+                st.write("The stop entered is not found in the dataset.")
+        except KeyError:
+            st.write("No buses available at this moment.")
+        except Exception as e:
+            st.write("An error occurred. Please try again later.")
     
 elif pagina == 'EMT Map':
     import pandas as pd
