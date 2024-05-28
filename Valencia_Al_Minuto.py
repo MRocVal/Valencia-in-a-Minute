@@ -129,19 +129,21 @@ if pagina == 'Home':
     
     # Sección para próximas llegadas y salidas
     st.markdown("""
-Nuestra aplicación surge de la necesidad de proporcionar una herramienta que se actualice en tiempo real y ofrezca información precisa y confiable sobre la llegada de los metros. En un mundo donde el tiempo es invaluable, entendemos la importancia de minimizar la espera y optimizar los viajes de los pasajeros. 
+Our application emerges from the need to provide a tool that updates in real time and offers precise and reliable information on the arrival of subways. In a world where time is invaluable, we understand the importance of minimizing waiting times and optimizing the journeys of passengers.
 
-## Actualizaciones en Tiempo Real
+## Real-Time Updates
 
-La característica principal de nuestra aplicación es su capacidad para actualizarse en tiempo real. Esto significa que los usuarios pueden obtener información instantánea sobre la llegada de los metros, con tiempos medidos y precisos que les permiten planificar sus desplazamientos de manera eficiente. Nunca más tendrás que adivinar cuándo llegará el próximo metro; nuestra app te lo dirá al instante.
+The main feature of our application is its ability to update in real time. This means that users can get instant information about subway arrivals, with measured and accurate times that allow them to plan their commutes efficiently. You will never have to guess when the next subway will arrive; our app will tell you instantly.
 
-## Organización Mejorada para los Viajes de los Pasajeros
+## Improved Organization for Passenger Journeys
 
-Además de proporcionar horarios exactos, nuestra aplicación está diseñada para mejorar la organización de los viajes de los pasajeros. Con funcionalidades avanzadas, los usuarios pueden planificar sus rutas, recibir notificaciones sobre cambios y retrasos, y acceder a recomendaciones para los trayectos más rápidos y convenientes. Nuestro objetivo es hacer que cada viaje sea lo más fluido y libre de estrés posible.
+In addition to providing exact schedules, our application is designed to enhance the organization of passengers' journeys. With advanced features, users can plan their routes, receive notifications about changes and delays, and access recommendations for the fastest and most convenient routes. Our goal is to make each journey as smooth and stress-free as possible.
 
-## Una Solución a tus Necesidades de Transporte
+## A Solution to Your Transportation Needs
 
-En resumen, nuestra aplicación nace de la necesidad de una solución que ofrezca actualizaciones en tiempo real y una organización superior para los viajes en metro. Estamos comprometidos con la innovación y la mejora continua para que tu experiencia de viaje sea óptima, eficiente y agradable. Únete a nosotros y descubre una nueva manera de viajar en metro.""")
+In summary, our application arises from the need for a solution that offers real-time updates and superior organization for subway journeys. We are committed to innovation and continuous improvement so that your travel experience is optimal, efficient, and enjoyable. Join us and discover a new way to travel by subway.
+
+Additionally, we also have schedules for EMT buses and a page for calculating route duration between Valenbisi station stops.""")
     
 
 elif pagina == 'Horario MetroValencia':
