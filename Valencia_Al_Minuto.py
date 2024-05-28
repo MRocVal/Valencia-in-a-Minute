@@ -443,14 +443,14 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
     st.sidebar.header("Select two stops")
     
     # Buscador para la primera parada
-    search_text1 = st.sidebar.text_input("Buscar Parada 1:")
+    search_text1 = st.sidebar.text_input("Search Stop 1:")
     if search_text1:
         filtered_data1 = data[data['Direccion'].str.contains(search_text1, case=False)]
     else:
         filtered_data1 = data
     
     # Buscador para la segunda parada
-    search_text2 = st.sidebar.text_input("Buscar Parada 2:")
+    search_text2 = st.sidebar.text_input("Search Stop 2:")
     if search_text2:
         filtered_data2 = data[data['Direccion'].str.contains(search_text2, case=False)]
     else:
@@ -461,8 +461,8 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
     filtered_data2 = filtered_data2.sort_values('Direccion')
     
     # Seleccionar dos paradas
-    parada1 = st.sidebar.selectbox("Parada 1", filtered_data1['Direccion'])
-    parada2 = st.sidebar.selectbox("Parada 2", filtered_data2['Direccion'])
+    parada1 = st.sidebar.selectbox("Stop 1", filtered_data1['Direccion'])
+    parada2 = st.sidebar.selectbox("Stop 2", filtered_data2['Direccion'])
     
     # Obtener coordenadas de las paradas seleccionadas
     coords1 = data[data['Direccion'] == parada1][['lon', 'lat']].values[0]
@@ -529,9 +529,9 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
                 initial_view_state=view_state,
                 map_style='mapbox://styles/mapbox/light-v9',
                 tooltip={
-                    "html": "<b>Dirección:</b> {Direccion}<br/>"
-                            "<b>Bicis Disponibles:</b> {Bicis_disponibles}<br/>"
-                            "<b>Espacios Libres:</b> {Espacios_libres}",
+                    "html": "<b>Address:</b> {Direccion}<br/>"
+                            "<b>Bikes Available:</b> {Bicis_disponibles}<br/>"
+                            "<b>Free Spaces:</b> {Espacios_libres}",
                     "style": {
                         "backgroundColor": "steelblue",
                         "color": "white"
@@ -539,7 +539,7 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
                 }
             ))
         else:
-            st.sidebar.write("No se pudo calcular la ruta. Por favor, intenta de nuevo.")
+            st.sidebar.write("The route could not be calculated. Please try again.")
     
     # Mostrar el mapa inicial con todas las estaciones
     else:
@@ -566,9 +566,9 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
             initial_view_state=view_state,
             map_style='mapbox://styles/mapbox/light-v9',
             tooltip={
-                "html": "<b>Dirección:</b> {Direccion}<br/>"
-                        "<b>Bicis Disponibles:</b> {Bicis_disponibles}<br/>"
-                        "<b>Espacios Libres:</b> {Espacios_libres}",
+                "html": "<b>Address:</b> {Direccion}<br/>"
+                        "<b>Bikes Available:</b> {Bicis_disponibles}<br/>"
+                        "<b>Free Spaces:</b> {Espacios_libres}",
                 "style": {
                     "backgroundColor": "steelblue",
                     "color": "white"
