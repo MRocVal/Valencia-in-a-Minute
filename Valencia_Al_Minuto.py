@@ -432,9 +432,9 @@ Hola como se se si esvribo así
     # Crear datos de íconos dentro de la función de carga para asegurar su disponibilidad
     data['icon_data'] = [{
         "url": "https://img.icons8.com/emoji/48/000000/bicycle-emoji.png",
-        "width": 128,
-        "height": 128,
-        "anchorY": 128,
+        "width": 28,
+        "height": 28,
+        "anchorY": 28,
     }] * len(data)
     
     # Añadir buscadores separados para cada parada
