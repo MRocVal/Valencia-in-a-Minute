@@ -349,7 +349,7 @@ You can choose the stops you are interested in and see their geographical distri
     data = load_data()
 
     # Entrada para filtrar paradas por nombre
-    filter_query = st.text_input('Filter stops by name:, '')
+    filter_query = st.text_input('Filter stops by name: ')
 
     # Filtrar las paradas que coincidan con la entrada del usuario
     if filter_query:
