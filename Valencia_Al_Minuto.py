@@ -507,7 +507,7 @@ Hola como se se si esvribo así
             view_state = pdk.ViewState(
                 latitude=(coords1[1] + coords2[1]) / 2,
                 longitude=(coords1[0] + coords2[0]) / 2,
-                zoom=20,
+                zoom=15,
                 pitch=0
             )
     
