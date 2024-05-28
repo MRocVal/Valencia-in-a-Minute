@@ -80,7 +80,6 @@ def obtener_proximos_movimientos_bus(url):
         st.error(f"Error al obtener los datos de {url}: {e}")
         return []
 
-
 def calcular_tiempo_restante(hora_llegada):
     formato = '%H:%M:%S'
     try:
@@ -95,11 +94,17 @@ def calcular_tiempo_restante(hora_llegada):
         tiempo_restante = hora_llegada_dt - hora_actual
         tiempo_restante_str = str(tiempo_restante)
 
-        # Buscar y extraer solo los minutos y segundos
-        minutos_segundos = tiempo_restante_str.split(":")[1:]
-        return ":".join(minutos_segundos)
+        # Checking if tiempo_restante_str is an invalid or special placeholder value
+        if tiempo_restante_str == '<Na>':  # Check your condition here
+            return '+1 hora'
+        else:
+            # Buscar y extraer solo los minutos y segundos
+            horas_minutos_segundos = tiempo_restante_str.split(":")
+            return ":".join(horas_minutos_segundos[:2])  # Only return hours and minutes
+
     except ValueError:
-        return None  # Return None if there's an error
+        # Return a specific default value or message if the date parsing fails
+        return "+1 hora"  # Providing a fallback directly here
 
 
 
