@@ -159,7 +159,6 @@ For any suggestions or inquiries, please send an email to the following address:
 
 """)
     
-
 elif pagina == 'MetroValencia Schedule':
     data = pd.read_csv('fgv-bocas.csv', delimiter=';')
     # Sección para próximas llegadas y salidas
