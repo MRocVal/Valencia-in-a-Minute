@@ -127,7 +127,7 @@ data_EMT = pd.read_csv('emt.csv', delimiter=';')
 
 # Menú de navegación en la barra lateral
 pagina = st.sidebar.selectbox('Selecciona una página', ['Home','MetroValencia Schedule', 'Interactive Map',
-                                                        'EMT Schedules', 'EMT Map','ValenBisi Route Duration','prueba'])
+                                                        'EMT Schedules', 'EMT Map','ValenBisi Route Duration'])
 
 
 if pagina == 'Home':
@@ -578,77 +578,6 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
             }
         ))
         
-    
-elif pagina == 'prueba':
-
-    from email.mime.text import MIMEText
-    
-    def load_metro_data():
-        # Suponiendo que tienes un archivo CSV con los horarios de los metros
-        metro_data = pd.read_csv('fgv-bocas.csv', delimiter=';')
-        return metro_data
-    
-    metro_data = load_metro_data()
-    
-    st.title('Valencia in a Minute')
-    
-    # Simula la selección de rutas frecuentes del usuario
-    user_routes = st.multiselect('Selecciona tus rutas frecuentes de metro', metro_data['Estacion'].unique())
-    
-    # Simula el tiempo de espera anticipado
-    wait_time = st.slider('Anticipa el tiempo de espera (min)', 1, 60)
-    
-    # Solicita el correo electrónico del usuario
-    user_email = st.text_input('Introduce tu correo electrónico para notificaciones')
-    
-    # Función para enviar correos electrónicos
-    def send_email(to_email, subject, message):
-        # Configura tu servidor de correo electrónico
-        smtp_server = 'smtp.gmail.com'
-        smtp_port = 587
-        from_email = 'mrocval018@gmail.com'
-        password = 'ztlw dbyb jbjy tftx'
-    
-        msg = MIMEText(message)
-        msg['Subject'] = subject
-        msg['From'] = from_email
-        msg['To'] = to_email
-    
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(from_email, password)
-        server.sendmail(from_email, to_email, msg.as_string())
-        server.quit()
-    
-    if st.button('Enviar Notificación'):
-        if user_email and user_routes:
-            subject = 'Notificación de Valencia in a Minute'
-            message = f'Tus rutas frecuentes: {", ".join(user_routes)}.\nTiempo de espera anticipado: {wait_time} minutos.'
-            send_email(user_email, subject, message)
-            st.success('Notificación enviada exitosamente!')
-        else:
-            st.error('Por favor, selecciona tus rutas frecuentes e introduce un correo electrónico válido.')
-    
-    # Aquí se mostraría la información en tiempo real, pero para esta demostración simplemente mostramos una tabla de ejemplo
-    st.subheader('Horarios de los Metros')
-    st.dataframe(metro_data)
-    
-    # Información adicional para los usuarios
-    st.markdown("""
-    Nuestra aplicación surge de la necesidad de proporcionar una herramienta que se actualice en tiempo real y ofrezca información precisa y confiable sobre la llegada de los metros. En un mundo donde el tiempo es invaluable, entendemos la importancia de minimizar la espera y optimizar los viajes de los pasajeros. 
-    
-    ## Actualizaciones en Tiempo Real
-    
-    La característica principal de nuestra aplicación es su capacidad para actualizarse en tiempo real. Esto significa que los usuarios pueden obtener información instantánea sobre la llegada de los metros, con tiempos medidos y precisos que les permiten planificar sus desplazamientos de manera eficiente. Nunca más tendrás que adivinar cuándo llegará el próximo metro; nuestra app te lo dirá al instante.
-    
-    ## Organización Mejorada para los Viajes de los Pasajeros
-    
-    Además de proporcionar horarios exactos, nuestra aplicación está diseñada para mejorar la organización de los viajes de los pasajeros. Con funcionalidades avanzadas, los usuarios pueden planificar sus rutas, recibir notificaciones sobre cambios y retrasos, y acceder a recomendaciones para los trayectos más rápidos y convenientes. Nuestro objetivo es hacer que cada viaje sea lo más fluido y libre de estrés posible.
-    
-    ## Una Solución a tus Necesidades de Transporte
-    
-    En resumen, nuestra aplicación nace de la necesidad de una solución que ofrezca actualizaciones en tiempo real y una organización superior para los viajes en metro. Estamos comprometidos con la innovación y la mejora continua para que tu experiencia de viaje sea óptima, eficiente y agradable. Únete a nosotros y descubre una nueva manera de viajar en metro.
-    """)
     
     
     
