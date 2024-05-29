@@ -585,7 +585,7 @@ elif pagina == 'prueba':
     
     def load_metro_data():
         # Suponiendo que tienes un archivo CSV con los horarios de los metros
-        metro_data = pd.read_csv('metro_horarios.csv')
+        metro_data = pd.read_csv('fgv-bocas.csv', delimiter=';')
         return metro_data
     
     metro_data = load_metro_data()
