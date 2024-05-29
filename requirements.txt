@@ -4,3 +4,4 @@ pydeck
 requests
 datetime
 beautifulsoup4 
+email.mime.text

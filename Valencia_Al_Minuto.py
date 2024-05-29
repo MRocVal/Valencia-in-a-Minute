@@ -580,11 +580,12 @@ Additionally, if you click on the bicycle icon on the map, it will display the n
         
     
 elif pagina == 'prueba':
-    
 
+    from email.mime.text import MIMEText
+    
     def load_metro_data():
         # Suponiendo que tienes un archivo CSV con los horarios de los metros
-        metro_data = pd.read_csv('fgv-bocas.csv', delimiter=';')
+        metro_data = pd.read_csv('metro_horarios.csv')
         return metro_data
     
     metro_data = load_metro_data()
@@ -592,14 +593,41 @@ elif pagina == 'prueba':
     st.title('Valencia in a Minute')
     
     # Simula la selección de rutas frecuentes del usuario
-    user_routes = st.multiselect('Selecciona tus rutas frecuentes de metro', metro_data['Denominació / Denominación'].unique())
+    user_routes = st.multiselect('Selecciona tus rutas frecuentes de metro', metro_data['Estacion'].unique())
     
     # Simula el tiempo de espera anticipado
     wait_time = st.slider('Anticipa el tiempo de espera (min)', 1, 60)
     
-    if user_routes:
-        st.info(f'Tus rutas frecuentes de metro: {", ".join(user_routes)}')
-        st.info(f'Tiempo de espera anticipado: {wait_time} minutos')
+    # Solicita el correo electrónico del usuario
+    user_email = st.text_input('Introduce tu correo electrónico para notificaciones')
+    
+    # Función para enviar correos electrónicos
+    def send_email(to_email, subject, message):
+        # Configura tu servidor de correo electrónico
+        smtp_server = 'smtp.gmail.com'
+        smtp_port = 587
+        from_email = 'mrocval018@gmail.com'
+        password = 'ztlw dbyb jbjy tftx'
+    
+        msg = MIMEText(message)
+        msg['Subject'] = subject
+        msg['From'] = from_email
+        msg['To'] = to_email
+    
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(from_email, password)
+        server.sendmail(from_email, to_email, msg.as_string())
+        server.quit()
+    
+    if st.button('Enviar Notificación'):
+        if user_email and user_routes:
+            subject = 'Notificación de Valencia in a Minute'
+            message = f'Tus rutas frecuentes: {", ".join(user_routes)}.\nTiempo de espera anticipado: {wait_time} minutos.'
+            send_email(user_email, subject, message)
+            st.success('Notificación enviada exitosamente!')
+        else:
+            st.error('Por favor, selecciona tus rutas frecuentes e introduce un correo electrónico válido.')
     
     # Aquí se mostraría la información en tiempo real, pero para esta demostración simplemente mostramos una tabla de ejemplo
     st.subheader('Horarios de los Metros')
